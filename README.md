@@ -15,7 +15,7 @@ X (A) 2023-10-09 2023-15-09 create python todo.txt +learning_programming @projec
 
 
 ## Commands
-- add "" -> this command adds tasks
+- add " " -> this command adds tasks
 - list || ls -> this command lists tasks
 	- ls +learning_programming
 	- ls @project
