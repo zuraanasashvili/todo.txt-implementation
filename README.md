@@ -9,8 +9,8 @@ X (A) 2023-10-09 2023-15-09 create python todo.txt +learning_programming @projec
 - first date - marks completion date
 - second date - marks creation date
 - text - describes task
-- + - describes project
-- @ - describes context - context means place and situation that you'll work on the task
+- "+" - describes project
+- "@" - describes context - context means place and situation that you'll work on the task
 - due + date - describes due date
 
 
