@@ -41,8 +41,8 @@ due + date - describes due date
 ### TODO
 [x] - list tasks with index numbers
 - somehow remove this file from the repo
-- need to create functionality that selects a task
-- this is needed in order to mark task as complete
+[x] - need to create functionality that selects a task
 - edit task
+- this is needed in order to mark task as complete
 - list just incomplete tasks
 - change priority

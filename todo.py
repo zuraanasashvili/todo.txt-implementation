@@ -87,20 +87,20 @@ def list_compound_tasks(inputs):
                     if i not in line:
                         return_line = False
                 if(return_line):
-                    print(line, end='')
+                    print(line, end = '')
     else:
         param = inputs[0]
         with open(FILE_NAME, 'r') as file:
             for line in file:
                 if param in line:
-                    print(line, end='')
+                    print(line, end = '')
 
 
 def list_tasks():
     with open(FILE_NAME, 'r') as file:
         content = file.read()
         if(content):
-            print(content, end='')
+            print(content, end = '')
         else:
             print("There are no tasks in the file")
 
@@ -126,8 +126,10 @@ def initialise_file():
             print(f"File {FILE_NAME} created")
 
 
-##############################################################################
+########################################################################
 # Helper functions
+
+
 def is_number(input_string):
     try:
         float_value = float(input_string)
@@ -141,8 +143,7 @@ def print_select_texts():
     print(SELECT_EXAMPLE)
 
 # End helper functions
-###############################################################################
-
+########################################################################
 
 if __name__ == '__main__':
     main()
