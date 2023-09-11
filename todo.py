@@ -60,12 +60,23 @@ def main():
                     else:
                         task_number = user_input[1]
                         print(f"task number is {task_number}")
+                        select_task(int(task_number))
             else:
                 print(HELPER_TEXT)
 
 
 def select_task(task_number):
-    pass
+    with open(FILE_NAME, 'r') as file:
+        lines = file.readlines()
+        print(lines)
+        if 1 <= task_number <= len(lines):
+            for i in lines:
+                if i[0] == str(task_number):
+                    print(f"selected task is - {i}")
+            pass
+        else:
+            print(f"Task number {task_number} does not exist")
+
 
 def list_compound_tasks(inputs):
     if len(inputs) > 1:
