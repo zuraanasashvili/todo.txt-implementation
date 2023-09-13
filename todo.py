@@ -1,9 +1,12 @@
 FILE_NAME = 'todo.txt'
 
-COMMANDS = { "add",
+COMMANDS = {
+    "add",
     "list",
     "ls",
-    "select"
+    "select",
+    "complete",
+    "edit"
 }
 
 ADD_COMMAND = 'add'
@@ -11,6 +14,10 @@ ADD_COMMAND = 'add'
 EXIT_COMMAND = 'exit'
 
 SELECT_COMMAND = 'select'
+
+COMPLETE_COMMAND = 'complete'
+
+EDIT_COMMAND = 'edit'
 
 LIST_TASKS_KEYWORDS = {'list', 'ls'}
 
@@ -20,9 +27,7 @@ HELPER_TEXT = (
     "Use 'exit' to exit to terminal"
 )
 
-SELECT_TEXT = ("Please use the correct format")
 
-SELECT_EXAMPLE = ("e.g. -> select 2")
 
 
 def main():
@@ -52,17 +57,47 @@ def main():
                         list_tasks()
                 if user_command == SELECT_COMMAND:
                     if len(user_input) > 2:
-                        print_select_texts()
+                        print_select_texts(SELECT_COMMAND)
                     elif len(user_input) == 2 and not is_number(user_input[1]):
-                        print_select_texts()
+                        print_select_texts(SELECT_COMMAND)
                     elif len(user_input) == 1:
-                        print_select_texts()
+                        print_select_texts(SELECT_COMMAND)
                     else:
                         task_number = user_input[1]
                         print(f"task number is {task_number}")
                         select_task(int(task_number))
+                if user_command == COMPLETE_COMMAND: # TODO: unless i figure out how to edit a task this needs to wait
+                    if len(user_input) > 2:
+                        print_select_texts(COMPLETE_COMMAND)
+                    elif len(user_input) == 2 and not is_number(user_input[1]):
+                        print_select_texts(COMPLETE_COMMAND)
+                    elif len(user_input) == 1:
+                        print_select_texts(COMPLETE_COMMAND)
+                    else:
+                        task_number = user_input[1]
+                        print(f"task number is {task_number}")
+                        complete_task(int(task_number))
+                if user_command == EDIT_COMMAND:
+                    if len(user_input) > 2:
+                        print_select_texts(EDIT_COMMAND)
+                    elif len(user_input) == 2 and not is_number(user_input[1]):
+                        print_select_texts(EDIT_COMMAND)
+                    elif len(user_input) == 1:
+                        print_select_texts(EDIT_COMMAND)
+                    else:
+                        task_number = user_input[1]
+                        print(f"task number is {task_number}")
+                        edit_task(int(task_number))
             else:
                 print(HELPER_TEXT)
+
+
+def edit_task(task_number):
+    pass
+
+
+def complete_task(task_number):
+    pass
 
 
 def select_task(task_number):
@@ -138,9 +173,12 @@ def is_number(input_string):
         return False
 
 
-def print_select_texts():
-    print(SELECT_TEXT)
-    print(SELECT_EXAMPLE)
+def print_select_texts(action):
+    select_text = (f"Please use the correct format")
+    select_example = (f"e.g. -> {action} 2")
+    print(select_text)
+    print(select_example)
+
 
 # End helper functions
 ########################################################################
