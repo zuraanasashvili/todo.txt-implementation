@@ -1,6 +1,6 @@
-FILE_NAME = 'todo.txt'
+file_name = 'todo.txt'
 
-COMMANDS = {
+commands = {
     "add",
     "list",
     "ls",
@@ -9,19 +9,19 @@ COMMANDS = {
     "edit"
 }
 
-ADD_COMMAND = 'add'
+add_command = 'add'
 
-EXIT_COMMAND = 'exit'
+exit_command = 'exit'
 
-SELECT_COMMAND = 'select'
+select_command = 'select'
 
-COMPLETE_COMMAND = 'complete'
+complete_command = 'complete'
 
-EDIT_COMMAND = 'edit'
+edit_command = 'edit'
 
-LIST_TASKS_KEYWORDS = {'list', 'ls'}
+list_tasks_keywords = {'list', 'ls'}
 
-HELPER_TEXT = (
+helper_text = (
     "Invalid Command\nUse 'add' to add a task\n"
     "Use 'list' or 'ls' to list tasks\n"
     "Use 'exit' to exit to terminal"
@@ -34,7 +34,7 @@ def main():
     initialise_file()
     while (True):
         user_input = input("Enter your command: ").strip()
-        if user_input.lower() == EXIT_COMMAND:
+        if user_input.lower() == exit_command:
             print("Exiting")
             break
         elif not user_input:
@@ -42,20 +42,20 @@ def main():
         else:
             user_input = user_input.split()
             user_command = user_input[0].lower()
-            if user_input[0].lower() in COMMANDS:
-                if user_command == ADD_COMMAND:
+            if user_input[0].lower() in commands:
+                if user_command == add_command:
                     task = " ".join(user_input[1:])
                     if (task):
                         create_task(task)
                     else:
                         print("Please add some text for task")
                 # if user is asking for ls
-                if user_command in LIST_TASKS_KEYWORDS:
+                if user_command in list_tasks_keywords:
                     if (len(user_input) > 1):
                         list_compound_tasks(user_input[1:])
                     else:
                         list_tasks()
-                if user_command == SELECT_COMMAND:
+                if user_command == select_command:
                     if len(user_input) > 2:
                         print_select_texts(SELECT_COMMAND)
                     elif len(user_input) == 2 and not is_number(user_input[1]):
@@ -66,7 +66,7 @@ def main():
                         task_number = user_input[1]
                         print(f"task number is {task_number}")
                         select_task(int(task_number))
-                if user_command == COMPLETE_COMMAND: # TODO: unless i figure out how to edit a task this needs to wait
+                if user_command == complete_command: # TODO: unless i figure out how to edit a task this needs to wait
                     if len(user_input) > 2:
                         print_select_texts(COMPLETE_COMMAND)
                     elif len(user_input) == 2 and not is_number(user_input[1]):
@@ -77,19 +77,19 @@ def main():
                         task_number = user_input[1]
                         print(f"task number is {task_number}")
                         complete_task(int(task_number))
-                if user_command == EDIT_COMMAND:
+                if user_command == edit_command:
                     if len(user_input) > 2:
-                        print_select_texts(EDIT_COMMAND)
+                        print_select_texts(edit_command)
                     elif len(user_input) == 2 and not is_number(user_input[1]):
-                        print_select_texts(EDIT_COMMAND)
+                        print_select_texts(edit_command)
                     elif len(user_input) == 1:
-                        print_select_texts(EDIT_COMMAND)
+                        print_select_texts(edit_command)
                     else:
                         task_number = user_input[1]
                         print(f"task number is {task_number}")
                         edit_task(int(task_number))
             else:
-                print(HELPER_TEXT)
+                print(helper_text)
 
 
 def edit_task(task_number):
@@ -101,7 +101,7 @@ def complete_task(task_number):
 
 
 def select_task(task_number):
-    with open(FILE_NAME, 'r') as file:
+    with open(file_name, 'r') as file:
         lines = file.readlines()
         print(lines)
         if 1 <= task_number <= len(lines):
@@ -115,7 +115,7 @@ def select_task(task_number):
 
 def list_compound_tasks(inputs):
     if len(inputs) > 1:
-        with open(FILE_NAME, 'r') as file:
+        with open(file_name, 'r') as file:
             for line in file:
                 return_line = True
                 for i in inputs:
@@ -125,14 +125,14 @@ def list_compound_tasks(inputs):
                     print(line, end = '')
     else:
         param = inputs[0]
-        with open(FILE_NAME, 'r') as file:
+        with open(file_name, 'r') as file:
             for line in file:
                 if param in line:
                     print(line, end = '')
 
 
 def list_tasks():
-    with open(FILE_NAME, 'r') as file:
+    with open(file_name, 'r') as file:
         content = file.read()
         if(content):
             print(content, end = '')
@@ -142,23 +142,23 @@ def list_tasks():
 
 def create_task(task):
     line_count = 0
-    with open(FILE_NAME, 'r') as file:
+    with open(file_name, 'r') as file:
         for line in file:
             line_count += 1
     line_count += 1
-    with open(FILE_NAME, 'a') as file:
+    with open(file_name, 'a') as file:
         file.write(str(line_count) + ' ' + task + '\n')
         print("Task is created")
 
 
 def initialise_file():
     try:
-        with open(FILE_NAME, 'r') as file:
+        with open(file_name, 'r') as file:
             content = file.read()
             print("File exists")
     except FileNotFoundError:
-        with open(FILE_NAME, 'w') as file:
-            print(f"File {FILE_NAME} created")
+        with open(file_name, 'w') as file:
+            print(f"File {file_name} created")
 
 
 ########################################################################
