@@ -28,8 +28,6 @@ helper_text = (
 )
 
 
-
-
 def main():
     initialise_file()
     while (True):
@@ -57,22 +55,22 @@ def main():
                         list_tasks()
                 if user_command == select_command:
                     if len(user_input) > 2:
-                        print_select_texts(SELECT_COMMAND)
+                        print_select_texts(select_command)
                     elif len(user_input) == 2 and not is_number(user_input[1]):
-                        print_select_texts(SELECT_COMMAND)
+                        print_select_texts(select_command)
                     elif len(user_input) == 1:
-                        print_select_texts(SELECT_COMMAND)
+                        print_select_texts(select_command)
                     else:
                         task_number = user_input[1]
                         print(f"task number is {task_number}")
                         select_task(int(task_number))
                 if user_command == complete_command: # TODO: unless i figure out how to edit a task this needs to wait
                     if len(user_input) > 2:
-                        print_select_texts(COMPLETE_COMMAND)
+                        print_select_texts(complete_command)
                     elif len(user_input) == 2 and not is_number(user_input[1]):
-                        print_select_texts(COMPLETE_COMMAND)
+                        print_select_texts(complete_command)
                     elif len(user_input) == 1:
-                        print_select_texts(COMPLETE_COMMAND)
+                        print_select_texts(complete_command)
                     else:
                         task_number = user_input[1]
                         print(f"task number is {task_number}")
@@ -86,14 +84,25 @@ def main():
                         print_select_texts(edit_command)
                     else:
                         task_number = user_input[1]
-                        print(f"task number is {task_number}")
                         edit_task(int(task_number))
             else:
                 print(helper_text)
 
 
 def edit_task(task_number):
-    pass
+    with open(file_name, 'r') as file:
+        lines = file.readlines()
+        if 1 <= task_number <= len(lines):
+            print(f"Task - {lines[task_number - 1]}")
+            new_text = input("Input your changes: ")
+            text_to_write = "{} {} \n".format(str(task_number), new_text)
+            lines[task_number - 1] = text_to_write
+        else:
+            print(f"Task number {task_number} does not exist")
+
+    with open(file_name, 'w') as file:
+        file.writelines(lines)
+
 
 
 def complete_task(task_number):
