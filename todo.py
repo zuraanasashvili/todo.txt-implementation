@@ -62,9 +62,8 @@ def main():
                         print_select_texts(select_command)
                     else:
                         task_number = user_input[1]
-                        print(f"task number is {task_number}")
                         select_task(int(task_number))
-                if user_command == complete_command: # TODO: unless i figure out how to edit a task this needs to wait
+                if user_command == complete_command:
                     if len(user_input) > 2:
                         print_select_texts(complete_command)
                     elif len(user_input) == 2 and not is_number(user_input[1]):
@@ -73,8 +72,7 @@ def main():
                         print_select_texts(complete_command)
                     else:
                         task_number = user_input[1]
-                        print(f"task number is {task_number}")
-                        complete_task(int(task_number))
+                        edit_task(int(task_number), True)
                 if user_command == edit_command:
                     if len(user_input) > 2:
                         print_select_texts(edit_command)
@@ -89,20 +87,28 @@ def main():
                 print(helper_text)
 
 
-def edit_task(task_number):
-    with open(file_name, 'r') as file:
-        lines = file.readlines()
-        if 1 <= task_number <= len(lines):
-            print(f"Task - {lines[task_number - 1]}")
-            new_text = input("Input your changes: ")
-            text_to_write = "{} {} \n".format(str(task_number), new_text)
-            lines[task_number - 1] = text_to_write
-        else:
-            print(f"Task number {task_number} does not exist")
-
+def edit_task(task_number, complete = False):
+    if (complete):
+        with open(file_name, 'r') as file:
+            lines = file.readlines()
+            if 1 <= task_number <= len(lines):
+                print(f"Task - {lines[task_number - 1]}")
+                new_text = "X {}".format(lines[task_number - 1])
+                lines[task_number - 1] = new_text
+            else:
+                print(f"Task number {task_number} does not exist")
+    else:
+        with open(file_name, 'r') as file:
+            lines = file.readlines()
+            if 1 <= task_number <= len(lines):
+                print(f"Task - {lines[task_number - 1]}")
+                new_text = input("Input your changes: ")
+                text_to_write = "{} {} \n".format(str(task_number), new_text)
+                lines[task_number - 1] = text_to_write
+            else:
+                print(f"Task number {task_number} does not exist")
     with open(file_name, 'w') as file:
-        file.writelines(lines)
-
+            file.writelines(lines)
 
 
 def complete_task(task_number):
@@ -134,19 +140,23 @@ def list_compound_tasks(inputs):
                     print(line, end = '')
     else:
         param = inputs[0]
-        with open(file_name, 'r') as file:
-            for line in file:
-                if param in line:
+        if param == '-a':
+            with open(file_name, 'r') as file:
+                for line in file:
                     print(line, end = '')
+        else:
+            with open(file_name, 'r') as file:
+                for line in file:
+                    if param in line and line[0] != 'X':
+                        print(line, end = '')
 
 
+# TODO: need to impement some code to print something if there are no tasks in the file
 def list_tasks():
     with open(file_name, 'r') as file:
-        content = file.read()
-        if(content):
-            print(content, end = '')
-        else:
-            print("There are no tasks in the file")
+        for line in file:
+            if line[0] != 'X':
+                print(line, end = '')
 
 
 def create_task(task):
