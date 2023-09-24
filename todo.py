@@ -128,7 +128,6 @@ def select_task(task_number):
         lines = file.readlines()
         if 1 <= task_number <= len(lines):
             for i in lines:
-                print(i)
                 if i[0] == str(task_number):
                     print(f"selected task is - {i}")
         else:
@@ -161,7 +160,7 @@ def list_compound_tasks(inputs):
                         print(line, end = '')
 
 
-# TODO: need to impement some code to print something if there are no tasks
+# need to impement some code to print something if there are no tasks
 def list_tasks():
     """
     docstring
