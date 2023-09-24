@@ -27,11 +27,15 @@ list_tasks_keywords = {'list', 'ls'}
 
 helper_text = (
     "Invalid Command\nUse 'add' to add a task\n"
-    "Use 'list' or 'ls' to list tasks\n"
-    "Use 'exit' to exit to terminal"
+    "Use 'list' or 'ls' to list incomplete tasks\n"
+    "Use 'ls -all' to list all tasks\n"
+    "Use 'exit' to exit to terminal\n"
+    "Use 'edit' to edit a task\n"
+    "Use 'complete' to complete a task"
 )
 
 
+# FIXME: Too many branches
 def main():
     """
     docstring
@@ -134,22 +138,38 @@ def select_task(task_number):
             print(f"Task number {task_number} does not exist")
 
 
+# FIXME: Too many branches
 def list_compound_tasks(inputs):
     """
     docstring
     """
     if len(inputs) > 1:
-        with open(file_name, 'r') as file:
-            for line in file:
-                return_line = True
-                for i in inputs:
-                    if i not in line:
+        list_all = '-all'
+        if list_all in inputs:
+            inputs.remove('-all')
+            with open(file_name, 'r') as file:
+                for line in file:
+                    return_line = True
+                    for i in inputs:
+                        if i not in line:
+                            return_line = False
+                    if return_line:
+                        print(line, end = '')
+        else:
+            with open(file_name, 'r') as file:
+                for line in file:
+                    if line[0] != 'X':
+                        return_line = True
+                    else:
                         return_line = False
-                if return_line:
-                    print(line, end = '')
+                    for i in inputs:
+                        if i not in line:
+                            return_line = False
+                    if return_line:
+                        print(line, end = '')
     else:
         param = inputs[0]
-        if param == '-a':
+        if param == '-all':
             with open(file_name, 'r') as file:
                 for line in file:
                     print(line, end = '')
@@ -160,7 +180,6 @@ def list_compound_tasks(inputs):
                         print(line, end = '')
 
 
-# need to impement some code to print something if there are no tasks
 def list_tasks():
     """
     docstring
@@ -185,6 +204,11 @@ def create_task(task):
         print("Task is created")
 
 
+
+
+########################################################################
+# Helper functions
+
 def initialise_file():
     """
     docstring
@@ -195,10 +219,6 @@ def initialise_file():
     except FileNotFoundError:
         with open(file_name, 'w') as file:
             print(f"File {file_name} created")
-
-
-########################################################################
-# Helper functions
 
 
 def is_number(input_string):
