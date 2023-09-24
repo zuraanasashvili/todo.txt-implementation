@@ -32,6 +32,9 @@ helper_text = (
 
 
 def main():
+    """
+    docstring
+    """
     initialise_file()
     while True:
         user_input = input("Enter your command: ").strip()
@@ -57,45 +60,47 @@ def main():
                     else:
                         list_tasks()
                 if user_command == select_command:
-                    if len(user_input) > 2:
-                        print_select_texts(select_command)
-                    elif len(user_input) == 2 and not is_number(user_input[1]):
-                        print_select_texts(select_command)
-                    elif len(user_input) == 1:
-                        print_select_texts(select_command)
-                    else:
-                        task_number = user_input[1]
+                    task_number = action_command_conditional(user_input, select_command)
+                    if task_number:
                         select_task(int(task_number))
                 if user_command == complete_command:
-                    if len(user_input) > 2:
-                        print_select_texts(complete_command)
-                    elif len(user_input) == 2 and not is_number(user_input[1]):
-                        print_select_texts(complete_command)
-                    elif len(user_input) == 1:
-                        print_select_texts(complete_command)
-                    else:
-                        task_number = user_input[1]
+                    task_number = action_command_conditional(user_input, complete_command)
+                    if task_number:
                         edit_task(int(task_number), True)
                 if user_command == edit_command:
-                    if len(user_input) > 2:
-                        print_select_texts(edit_command)
-                    elif len(user_input) == 2 and not is_number(user_input[1]):
-                        print_select_texts(edit_command)
-                    elif len(user_input) == 1:
-                        print_select_texts(edit_command)
-                    else:
-                        task_number = user_input[1]
+                    task_number = action_command_conditional(user_input, edit_command)
+                    if task_number:
                         edit_task(int(task_number))
             else:
                 print(helper_text)
 
+def action_command_conditional(user_input, action):
+    """
+    docstring
+    """
+    if len(user_input) > 2:
+        print_select_texts(action)
+        return None
+    elif len(user_input) == 2 and not is_number(user_input[1]):
+        print_select_texts(action)
+        return None
+    elif len(user_input) == 1:
+        print_select_texts(action)
+        return None
+    else:
+        return user_input[1]
+
+
 def edit_task(task_number, complete = False):
+    """
+    docstring
+    """
     if complete:
         with open(file_name, 'r') as file:
             lines = file.readlines()
             if 1 <= task_number <= len(lines):
                 print(f"Task - {lines[task_number - 1]}")
-                new_text = "X {}".format(lines[task_number - 1]) # FIXME: this could be a f-string
+                new_text = f"X {lines[task_number - 1]}"
                 lines[task_number - 1] = new_text
             else:
                 print(f"Task number {task_number} does not exist")
@@ -105,7 +110,7 @@ def edit_task(task_number, complete = False):
             if 1 <= task_number <= len(lines):
                 print(f"Task - {lines[task_number - 1]}")
                 new_text = input("Input your changes: ")
-                text_to_write = "{} {} \n".format(str(task_number), new_text) # FIXME: this could be a f-string
+                text_to_write = f"{str(task_number)} {new_text} \n"
                 lines[task_number - 1] = text_to_write
             else:
                 print(f"Task number {task_number} does not exist")
@@ -113,21 +118,27 @@ def edit_task(task_number, complete = False):
         file.writelines(lines)
 
 
-
+# TODO: When i select a completed task nothing happens
+# Why do I have this functionality at all?
 def select_task(task_number):
+    """
+    docstring
+    """
     with open(file_name, 'r') as file:
         lines = file.readlines()
-        print(lines)
         if 1 <= task_number <= len(lines):
             for i in lines:
+                print(i)
                 if i[0] == str(task_number):
                     print(f"selected task is - {i}")
-            pass
         else:
             print(f"Task number {task_number} does not exist")
 
 
 def list_compound_tasks(inputs):
+    """
+    docstring
+    """
     if len(inputs) > 1:
         with open(file_name, 'r') as file:
             for line in file:
@@ -150,8 +161,11 @@ def list_compound_tasks(inputs):
                         print(line, end = '')
 
 
-# TODO: need to impement some code to print something if there are no tasks in the file
+# TODO: need to impement some code to print something if there are no tasks
 def list_tasks():
+    """
+    docstring
+    """
     with open(file_name, 'r') as file:
         for line in file:
             if line[0] != 'X':
@@ -159,6 +173,9 @@ def list_tasks():
 
 
 def create_task(task):
+    """
+    docstring
+    """
     line_count = 0
     with open(file_name, 'r') as file:
         for line in file:
@@ -170,6 +187,9 @@ def create_task(task):
 
 
 def initialise_file():
+    """
+    docstring
+    """
     try:
         with open(file_name, 'r') as file:
             content = file.read()
@@ -184,6 +204,9 @@ def initialise_file():
 
 
 def is_number(input_string):
+    """
+    docstring
+    """
     try:
         float_value = float(input_string)
         return True
@@ -192,6 +215,7 @@ def is_number(input_string):
 
 
 def print_select_texts(action):
+    """docstring"""
     select_text = "Please use the correct format"
     select_example = f"e.g. -> {action} 2"
     print(select_text)
