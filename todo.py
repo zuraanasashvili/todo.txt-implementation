@@ -42,7 +42,7 @@ def main():
         if user_input.lower() == exit_command:
             print("Exiting")
             break
-        elif not user_input:
+        if not user_input:
             continue
         else:
             user_input = user_input.split()
@@ -82,14 +82,13 @@ def action_command_conditional(user_input, action):
     if len(user_input) > 2:
         print_select_texts(action)
         return None
-    elif len(user_input) == 2 and not is_number(user_input[1]):
+    if len(user_input) == 2 and not is_number(user_input[1]):
         print_select_texts(action)
         return None
-    elif len(user_input) == 1:
+    if len(user_input) == 1:
         print_select_texts(action)
         return None
-    else:
-        return user_input[1]
+    return user_input[1]
 
 
 def edit_task(task_number, complete = False):
@@ -193,7 +192,6 @@ def initialise_file():
     """
     try:
         with open(file_name, 'r') as file:
-            content = file.read()
             print("File exists")
     except FileNotFoundError:
         with open(file_name, 'w') as file:
